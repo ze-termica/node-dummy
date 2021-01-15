@@ -7,9 +7,8 @@ module.exports = function (app) {
     api.getCompanyInfo = function (req, res) {
         console.time('Processing time');
 
-        //TODO: salvar no ES
         console.log(serverUtil.getFormatedTime(), 'get request on /company remote ip: ', req.connection.remoteAddress);
-        serverUtil.saveElasticsearchInteractionData(serverUtil.getFormatedTime(), 'get request on /company remote ip: ', req.connection.remoteAddress, 'interaction');
+        // serverUtil.saveElasticsearchInteractionData(serverUtil.getFormatedTime(), 'get request on /company remote ip: ', req.connection.remoteAddress, 'interaction');
         serverUtil.getHttpUserData().then(users => {
             let usersInfo = [];
             users.forEach(user => {
