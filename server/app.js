@@ -3,22 +3,21 @@ let consign = require('consign');
 let bodyParser = require('body-parser');
 let cors = require('cors');
 let app = express();
+let fs = require('fs');
 
-//app.set('trust proxy', true);
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = fs.readFileSync('./swagger/swagger_output.json');
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(JSON.parse(swaggerFile)));
+
 app.use(cors());
+app.use(express.static('./public'));
 app.use(bodyParser.json());
-
-// if (process.env.NODE_ENV === 'production') {
-//     //TODO:
-// } else if (process.env.NODE_ENV === 'development') {
-
-// } else if (process.env.NODE_ENV === 'local') {
-
-// }
 
 consign()
     .include('api')
     .then('routes')
+    .exclude('api/bitmap.test.js')
+    .exclude('api/hero.test.js')
     .into(app);
 
 module.exports = app;
